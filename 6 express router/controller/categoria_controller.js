@@ -1,60 +1,99 @@
 const ModelCategoria = require('../models/categoria_model');
-const data = [
-    {
-        id : 123,
-        nombre : "Polos"
-    },
-    {
-        id : 1234,
-        nombre : "Pantalones"
+
+function errorHandler(data, next, err = null){
+    if(err){
+        return next(err);
     }
-]
+
+    if(!data){
+       let error = new Error("Datos no existe");
+       error.statusCode = 404;
+       return next(error);
+    }
+}
 
 // Listar
 function listar(req, res) {
-    res.json({
-        data:data
+    ModelCategoria.find().exec( (err, items) =>{
+        if( err || items)
+        
+        return errorHandler(items, next, err)
+
+        return res.json({
+            items : items
+        })
     });
 }
 
 // get categoria 
 function getcategoria(req, res) {
-    res.json({
-        id : 1234,
-        nombre : "Pantalones"
+    let id = req.params.id;
+
+    ModelCategoria.findById(id, (err, docCategoria) => {
+        if( err || items)
+        
+        return errorHandler(items, next, err)
+
+        return res.json({
+          data : docCategoria
+        })
+
     });
+
+    
 }
 
 //Guardar
-function guardar(req, res){
+function guardar(req, res, next){
 
+    //console.log(req.body);
+   
     let data = {
-        categoria_nombre : "Polos"
+        categoria_nombre : req.body.categoria_nombre
     }
 
     modelCategoria = new ModelCategoria(data);
     modelCategoria.save((err, docCategoria) => {
-        console.log(err);
-        console.log(docCategoria);
-
+        
+        if( err || !docCategoria) return errorHandler(docCategoria, next, err)
+    
+        return res.json({
+            data:docCategoria
+        });
     });
 
-    res.json({
-        message : "Guardado"
-    });
 }
 
 //Borrar
 function borrar(req, res) {
-    res.json({
-        message : "Borrado"
+    const id = req.params.id;
+    ModelCategoria.findByIdAndRemove(id, (err, docCategoria) =>{
+        if( err || items)
+        
+        return errorHandler(items, next, err)
+
+        return res.json({
+            data:docCategoria
+        });
     });
 }
 
 //Actualizar
 function actualizar(req, res){
-    res.json({
-        message : "Actualizado"
+    const id = req.params.id;
+
+    const data = {
+        categoria_nombre : req.body.categoria_nombre
+    }
+    
+    ModelCategoria.findByIdAndUpdate(id, { categoria_nombre : req.body.categoria_nombre},{new : true}, (err, docCategoria) =>{
+        if( err || items)
+        
+        return errorHandler(items, next, err)
+        
+        return res.json({
+            data : docCategoria
+        })
     });
 }
 
@@ -65,3 +104,4 @@ module.exports = {
     borrar,
     actualizar
 }
+// Minuto 1:10 Clase 3.1

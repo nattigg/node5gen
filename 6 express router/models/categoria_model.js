@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var Categoria = new mongoose.Schema({
+var schemaCategoria = new mongoose.Schema({
    //campo 1 categoria nombre
     categoria_nombre:{
         type: String,
@@ -11,7 +11,7 @@ var Categoria = new mongoose.Schema({
     timestamps : true
 });
 
-const model = mongoose.model('ModelCategoria', Categoria);
+const model = mongoose.model('ModelCategoria', schemaCategoria);
 
 module.exports = model;
 
