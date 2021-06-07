@@ -6,8 +6,8 @@ const router = express.Router();
 //Rutas
 // para las rutas que tienen isAdmin el usuario se debe crear
 // con el ROL = ADMIN_ROLE
-router.get('/formulario',isAuth, isAdmin , listar);
-router.post('/formulario',isAuth, isAdmin , guardar);
+router.get('/formulario',isAuth,  listar);
+router.post('/formulario',isAuth,  guardar);
 router.delete('/formulario/:formularioId',isAuth, isAdmin , borrar);
 router.put('/formulario/:id',isAuth, isAdmin , actualizar);
 

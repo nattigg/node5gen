@@ -1,5 +1,7 @@
 const  express = require('express');
 const mongoose = require('mongoose');
+
+
 const app = express();
 const routerV1 = require('./routers/index');
 app.use(express.json());
@@ -8,6 +10,7 @@ app.use(express.json());
 // se debe crear la variable de entorno
 // set NODE_ENV = desarrollo
 // desde CMD
+
 console.log(`-${process.env.NODE_ENV}-`);
 
 if (process.env.NODE_ENV === 'desarrollo'){
@@ -15,6 +18,18 @@ if (process.env.NODE_ENV === 'desarrollo'){
 }else if (process.env.NODE_ENV === 'produccion'){
     require('dotenv').config();
 }
+
+app.use(cors());
+
+/*
+app.use((req, res, next) =>{
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+    next();
+});
+*/
 
 routerV1(app);
 
